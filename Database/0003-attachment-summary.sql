@@ -1,0 +1,8 @@
+CREATE TABLE attachment_summary (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        email_id VARCHAR(512) NOT NULL,
+        file_key VARCHAR(512) NOT NULL,
+        summary TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

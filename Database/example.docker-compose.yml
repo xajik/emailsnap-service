@@ -1,0 +1,24 @@
+  email-snap-mysql:
+    image: mysql:8.0
+    restart: always
+    platform: linux/amd64 
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - app-network
+
+  email-snap-fastapi:
+    depends_on:
+      - email-snap-mysql
+
+  metabase:
+    depends_on:
+      - email-snap-mysql
+

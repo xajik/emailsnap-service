@@ -1,0 +1,17 @@
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("RDS_DATABASE_URL")
+AWS_REGION = os.getenv("AWS_REGION")
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+SNS_QUEUE_URL = os.getenv("SQS_QUEUE_URL")
+EC2_IP_ADDRESS = os.getenv("EC2_IP_ADDRESS")
+EMAIL_BUCKET_NAME =os.getenv("S3_BUCKET")
+LANGCHAIN_PROJECT =os.getenv("LANGCHAIN_PROJECT")
+LANGCHAIN_TRACING_V2 =os.getenv("LANGCHAIN_TRACING_V2")
+LANGCHAIN_ENDPOINT =os.getenv("LANGCHAIN_ENDPOINT")
+OPENAI_API_KEY =os.getenv("OPENAI_API_KEY")

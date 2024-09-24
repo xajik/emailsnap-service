@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  email-snap-fastapi:
+    image: fastapi:latest
+    container_name: emailsnap-fastapi
+    restart: always
+    platform: linux/amd64 
+    build:
+      context: ./service
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes: 
+      - ./service/app:/app/app
+    environment:
+      RDS_DATABASE_URL: ${RDS_DATABASE_URL}  
+      AWS_REGION: ${AWS_REGION}        
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      S3_BUCKET: ${S3_BUCKET}         
+      SQS_QUEUE_URL: ${SQS_QUEUE_URL}
+      EC2_IP_ADDRESS: ${EC2_IP_ADDRESS}
+      LANGCHAIN_TRACING_V2: ${LANGCHAIN_TRACING_V2}
+      LANGCHAIN_ENDPOINT: ${LANGCHAIN_ENDPOINT}
+      LANGCHAIN_API_KEY: ${LANGCHAIN_API_KEY}
+      LANGCHAIN_PROJECT: ${LANGCHAIN_PROJECT}
+    networks:
+      - app-network
+  email-snap-superset:
+    build:
+      context: ./superset
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8088:8088"
+    volumes:
+      - superset_data:/app/superset_home
+    environment:
+      SECRET_KEY: ${SUPERSET_SECRET_KEY}
+      SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY}
+      SQLALCHEMY_DATABASE_URI: ${SUPERSET_DATABASE_URL}
+      SUPERSET_ADMIN_USERNAME: ${SUPERSET_ADMIN_USERNAME}
+      SUPERSET_ADMIN_EMAIL: ${SUPERSET_ADMIN_EMAIL}
+      SUPERSET_ADMIN_PASSWORD: ${SUPERSET_ADMIN_PASSWORD}
+      SUPERSET_HOME: '/app/superset_home'
+    networks:
+      - app-network  
+  
+volumes:
+  mysql_data:
+  app_data:
+  superset_data:
+
+networks:
+  app-network:
